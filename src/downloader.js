@@ -1,3 +1,10 @@
+const urlOverrides = [
+  ['practice-bulletin/articles/2020/10/medication-abortion-up-to-70-days-of-gestation', '/practice-bulletin/articles/2020/10/medication-abortion-up-to-70-days-gestation.pdf']
+  ['practice-bulletin/articles/2019/03/obstetric-analgesia-and-anesthesia', 'practice-bulletin/articles/2019/03/obstetric-analgesia-and-anesthesia-labor-causes.pdf']
+];
+
+const overrides = new Map(urlOverrides);
+
 const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
@@ -26,6 +33,12 @@ const convertUrl = (articleUrl) => {
   const fileBaseUrl = "https://www.acog.org/-/media/project/acog/acogorg/clinical/files";
   const articlePart = articleUrl.split("/clinical-guidance/")[1];
 
+  const override = overrides.get(articlePart);
+  
+  if (override) {
+    return `${fileBaseUrl}/${override}`;
+  }
+  
   return `${fileBaseUrl}/${articlePart}.pdf`;
 };
 
